@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { ResCountry } from '../interfaces/rest-countries.interfaces';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, of, throwError } from 'rxjs';
 import { CountryMapper } from '../../mappers/country.mapper';
 import { Country } from '../interfaces/country.interface';
 
@@ -15,6 +15,10 @@ export class CountryService {
 
   searchByCapital(query: string): Observable<Country[]> {
     query = query.toLowerCase();
+    console.log('emitiendo valor');
+
+    
+
     return this.http.get<ResCountry[]>(`${API_URL}/capital/${query}`).pipe(
       map((data) => CountryMapper.MapResCountryItemToCountryArray(data)),
       catchError((error) => {
@@ -36,6 +40,20 @@ export class CountryService {
         console.log(error);
         return throwError(
           () => new Error('No se puede obtener paises con ese query')
+        );
+      })
+    );
+  }
+
+  searchCountryByAlphaCode(code: string) {
+    console.log(code);
+    return this.http.get<ResCountry[]>(`${API_URL}/alpha/${code}`).pipe(
+      map((resp) => CountryMapper.MapResCountryItemToCountryArray(resp)),
+      map((countries) => countries.at(0)),
+      catchError((error) => {
+        console.log(error);
+        return throwError(
+          () => new Error('No se puede obtener paises con ese codigo' + code)
         );
       })
     );

@@ -13,6 +13,8 @@ export class CountryMapper {
       flagSVG: item.flags.svg,
       common: item.translations['spa'].common,
       population: item.population,
+      region: item.region,
+      subRegion: item.subregion,
     };
   }
 

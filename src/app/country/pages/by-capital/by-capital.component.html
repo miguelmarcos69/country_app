@@ -1,8 +1,11 @@
 
 <app-search-menu placeholder="Buscar por capital de mi pais"
-  (value)="query.set($event)" />
+  (value)="query.set($event)"
+   [debounceTime]="400" />
 <app-country-list
   [countries]="countryResource.value() ?? []"
   [errorMessage]="countryResource.error() "
   [isEmpty]="countryResource.value()?.length==0"
-  [isLoading]="countryResource.isLoading()" />
+  [isLoading]="countryResource.isLoading()"
+
+  />
